@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvailabilityApi", "AvailabilityApi\AvailabilityApi.csproj", "{0C8E2C34-AC6B-40FB-8AC2-8C2D8AFC1747}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{81420A3B-0721-4008-BCF1-EEA94989DF08}"
+	ProjectSection(SolutionItems) = preProject
+		compose.yaml = compose.yaml
+		pact-broker-compose.yaml = pact-broker-compose.yaml
+		init-multiple-dbs\docker-entrypoint-initdb.d = init-multiple-dbs\docker-entrypoint-initdb.d
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvailabilityApiTests", "AvailabilityApiTests\AvailabilityApiTests.csproj", "{B925716C-98EB-43D9-916F-E9141564A527}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesTests", "SalesTests\SalesTests.csproj", "{67489F68-D2BA-4595-A3A7-E3381F89871A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales", "Sales\Sales.csproj", "{1E90C069-48CC-42CA-95A6-609212AFFFCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{490995D8-431D-4438-B63D-BC18E0BD2230}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0C8E2C34-AC6B-40FB-8AC2-8C2D8AFC1747}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C8E2C34-AC6B-40FB-8AC2-8C2D8AFC1747}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C8E2C34-AC6B-40FB-8AC2-8C2D8AFC1747}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C8E2C34-AC6B-40FB-8AC2-8C2D8AFC1747}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B925716C-98EB-43D9-916F-E9141564A527}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B925716C-98EB-43D9-916F-E9141564A527}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B925716C-98EB-43D9-916F-E9141564A527}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B925716C-98EB-43D9-916F-E9141564A527}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67489F68-D2BA-4595-A3A7-E3381F89871A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67489F68-D2BA-4595-A3A7-E3381F89871A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67489F68-D2BA-4595-A3A7-E3381F89871A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67489F68-D2BA-4595-A3A7-E3381F89871A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E90C069-48CC-42CA-95A6-609212AFFFCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E90C069-48CC-42CA-95A6-609212AFFFCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E90C069-48CC-42CA-95A6-609212AFFFCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E90C069-48CC-42CA-95A6-609212AFFFCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{490995D8-431D-4438-B63D-BC18E0BD2230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{490995D8-431D-4438-B63D-BC18E0BD2230}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{490995D8-431D-4438-B63D-BC18E0BD2230}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{490995D8-431D-4438-B63D-BC18E0BD2230}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

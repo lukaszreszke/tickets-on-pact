@@ -1,0 +1,30 @@
+name: pact-broker
+services:
+  postgres:
+    image: postgres
+    healthcheck:
+      test: psql postgres --command "select 1" -U postgres
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+
+  pact-broker:
+    image: pactfoundation/pact-broker
+    ports:
+      - "9292:9292"
+    environment:
+      PACT_BROKER_PORT: '9292'
+      PACT_BROKER_DATABASE_URL: "postgres://postgres:password@postgres/postgres"
+      PACT_BROKER_LOG_LEVEL: INFO
+      PACT_BROKER_SQL_LOG_LEVEL: DEBUG
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+
+volumes:
+  postgres-volume:
+
