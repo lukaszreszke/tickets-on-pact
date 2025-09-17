@@ -1,0 +1,63 @@
+﻿using System.Net;
+using System.Net.Http.Headers;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Moq;
+using PactNet;
+using PactNet.Output.Xunit;
+using Sales.Services;
+using Xunit.Abstractions;
+
+namespace SalesTests;
+
+public class AvailabilityConsumerTests
+{
+    private readonly IPactBuilderV4 _pact;
+    private readonly Mock<IHttpClientFactory> _mockFactory;
+
+    public AvailabilityConsumerTests(ITestOutputHelper output)
+    {
+        _mockFactory = new Mock<IHttpClientFactory>();
+
+        var config = new PactConfig
+        {
+            Outputters = new[] { new XunitOutput(output) },
+            DefaultJsonSettings = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                PropertyNameCaseInsensitive = true,
+                Converters = { new JsonStringEnumConverter() }
+            },
+            LogLevel = PactLogLevel.Information
+        };
+
+        _pact = Pact.V4("Sales", "AvailabilityApi", config).WithHttpInteractions();
+    }
+
+    [Fact]
+    public async Task TestHealthCheck()
+    {
+        _pact.UponReceiving("healthcheck request")
+            .WithRequest(HttpMethod.Get, "/health")
+            .WillRespond()
+            .WithBody("Healthy", "text/plain")
+            .WithStatus(HttpStatusCode.OK);
+
+        await _pact.VerifyAsync(async ctx =>
+        {
+            _mockFactory.Setup(x => x.CreateClient("AvailabilityApi"))
+                .Returns(() => new HttpClient
+                {
+                    BaseAddress = ctx.MockServerUri,
+                    DefaultRequestHeaders =
+                    {
+                        Accept = { MediaTypeWithQualityHeaderValue.Parse("application/json") }
+                    }
+                });
+            
+            var healthCheckClient = new HealthCheckClient(_mockFactory.Object.CreateClient("AvailabilityApi"));
+            var result = await healthCheckClient.DudeYouOk();
+            Assert.Equal("Healthy", result);
+        });
+    }
+}
