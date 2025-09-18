@@ -122,4 +122,33 @@ public class AvailabilityConsumerTests
             Assert.NotNull(result);
         });
     }
+    
+    
+    [Fact]
+    public async Task BlockResource()
+    {
+        _pact.UponReceiving("a request to block specific resource")
+            .WithRequest(HttpMethod.Post, "/api/resources/1")
+            .WithJsonBody(new { id = 1 })
+            .WillRespond()
+            .WithStatus(HttpStatusCode.OK)
+            .WithJsonBody(new { id = 1, status = "blocked" });
+
+        await _pact.VerifyAsync(async ctx =>
+        {
+            _mockFactory.Setup(x => x.CreateClient("AvailabilityApi"))
+                .Returns(() => new HttpClient
+                {
+                    BaseAddress = ctx.MockServerUri,
+                    DefaultRequestHeaders =
+                    {
+                        Accept = { MediaTypeWithQualityHeaderValue.Parse("application/json") }
+                    }
+                });
+
+            var client = new AvailabilityApiClient(_mockFactory.Object.CreateClient("AvailabilityApi"));
+            var result = await client.Block(1);
+            Assert.NotNull(result);
+        });
+    }
 }
