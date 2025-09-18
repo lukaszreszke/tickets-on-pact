@@ -20,11 +20,18 @@ public partial class Program
         builder.Services.AddOpenApi();
         builder.Services.AddHealthChecks();
 
-        builder.Services.AddDbContextPool<AvailabilityContext>(opt =>
+        if (builder.Environment.IsEnvironment("Testing"))
         {
-            opt.UseNpgsql(builder.Configuration.GetConnectionString("Availability"));
-            opt.EnableSensitiveDataLogging();
-        });
+           builder.Services.AddDbContextPool<AvailabilityContext>(o => o.UseInMemoryDatabase("AvailabilityTest"));
+        }
+        else
+        {
+           builder.Services.AddDbContextPool<AvailabilityContext>(o =>
+           {
+               o.UseNpgsql(builder.Configuration.GetConnectionString("Availability"));
+               o.EnableSensitiveDataLogging();
+           });
+        }
         var app = builder.Build();
         
         var logger = app.Services.GetRequiredService<ILogger<Program>>();
