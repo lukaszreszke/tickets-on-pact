@@ -1,6 +1,8 @@
 using AvailabilityApi.Infrastructure;
 using AvailabilityApi.Models;
 using AvailabilityApi.Services;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
@@ -87,6 +89,13 @@ public partial class Program
                     new { id = 3, status = "temporary_blocked", name = "Snoop Dog" }
                 }
             };
+        });
+
+        app.MapGet("/api/resources/{id}", (int id) =>
+        {
+            if(id == 1)
+                return Results.Ok(new { id = 1, status = "available", name = "LadyGaGa" });
+            return Results.NotFound();
         });
 
         app.MapHealthChecks("/health");
