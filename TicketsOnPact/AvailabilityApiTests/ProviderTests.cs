@@ -52,7 +52,7 @@ public class ProviderTests : IDisposable
     public void Verify()
     {
         _verifier.WithHttpEndpoint(new Uri(_baseUri))
-            .WithDirectorySource(new DirectoryInfo("../../../pacts"))
+            .WithFileSource(new ("../../../../SalesTests/pacts/Sales-AvailabilityApi.json"))
             .Verify();
     }
 
