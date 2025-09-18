@@ -69,6 +69,11 @@
     {
       "description": "get all resources",
       "pending": false,
+      "providerStates": [
+        {
+          "name": "all resources"
+        }
+      ],
       "request": {
         "method": "GET",
         "path": "/api/resources"
