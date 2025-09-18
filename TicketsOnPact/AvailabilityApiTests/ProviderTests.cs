@@ -34,6 +34,7 @@ public class ProviderTests : IDisposable
 
         _app = Program.BuildApp(["--environment=Testing"]);
         _app.Urls.Add(_baseUri);
+        _app.UseMiddleware<ProviderStateMiddleware>(); 
         _app.Start();
 
         _client = new HttpClient { BaseAddress = new Uri(_baseUri) };
@@ -53,6 +54,7 @@ public class ProviderTests : IDisposable
     {
         _verifier.WithHttpEndpoint(new Uri(_baseUri))
             .WithFileSource(new ("../../../../SalesTests/pacts/Sales-AvailabilityApi.json"))
+            .WithProviderStateUrl(new Uri($"{_baseUri}/provider-states"))
             .Verify();
     }
 
