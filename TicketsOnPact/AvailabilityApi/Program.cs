@@ -75,7 +75,20 @@ public partial class Program
                 return Results.Problem("Database connection failed");
             }
         });
-
+        
+        app.MapGet("/api/resources", () =>
+        {
+            return new
+            {
+                Resources = new[]
+                {
+                    new { id = 1, status = "available", name = "LadyGaGa" },
+                    new { id = 2, status = "blocked", name = "T-Love" },
+                    new { id = 3, status = "temporary_blocked", name = "Snoop Dog" }
+                }
+            };
+        });
+        
         app.MapHealthChecks("/health");
 
         logger.LogInformation("Application configured and ready to start");
