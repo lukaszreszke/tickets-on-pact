@@ -91,6 +91,15 @@ public partial class Program
             return Results.NotFound();
         });
 
+        app.MapPost("/api/resources/{id}", (int id, [FromBody] dynamic json) =>
+        {
+            if (id == 1)
+            {
+                return Results.Ok(new { id = 1, status = "blocked" });
+            }
+            return Results.NotFound();
+        });
+
         app.MapHealthChecks("/health");
 
         logger.LogInformation("Application configured and ready to start");
