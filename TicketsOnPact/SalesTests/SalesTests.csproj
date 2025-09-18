@@ -26,4 +26,8 @@
       <ProjectReference Include="..\Sales\Sales.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="pacts\" />
+    </ItemGroup>
+
 </Project>
