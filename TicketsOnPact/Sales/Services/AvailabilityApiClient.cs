@@ -11,4 +11,11 @@ public class AvailabilityApiClient(HttpClient httpClient)
         var content = await response.Content.ReadFromJsonAsync<ResourcesDto>();
         return content;
     }
+    
+    public async Task<ResourcesDto> Get(int id)
+    {
+        var response = await httpClient.GetAsync($"/api/resources/{id}");
+        var content = await response.Content.ReadFromJsonAsync<ResourcesDto>();
+        return content;
+    }
 }

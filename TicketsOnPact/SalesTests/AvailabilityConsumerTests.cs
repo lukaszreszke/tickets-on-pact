@@ -89,9 +89,36 @@ public class AvailabilityConsumerTests
                         Accept = { MediaTypeWithQualityHeaderValue.Parse("application/json") }
                     }
                 });
-            
+
             var client = new AvailabilityApiClient(_mockFactory.Object.CreateClient("AvailabilityApi"));
             var result = await client.GetAll();
+            Assert.NotNull(result);
+        });
+    }
+
+    [Fact]
+    public async Task GetResource()
+    {
+        _pact.UponReceiving("a request to get resource by id")
+            .WithRequest(HttpMethod.Get, "/api/resources/1")
+            .WillRespond()
+            .WithStatus(HttpStatusCode.OK)
+            .WithJsonBody(new ResourceDto(1, "LadyGaGa", "available"));
+
+        await _pact.VerifyAsync(async ctx =>
+        {
+            _mockFactory.Setup(x => x.CreateClient("AvailabilityApi"))
+                .Returns(() => new HttpClient
+                {
+                    BaseAddress = ctx.MockServerUri,
+                    DefaultRequestHeaders =
+                    {
+                        Accept = { MediaTypeWithQualityHeaderValue.Parse("application/json") }
+                    }
+                });
+
+            var client = new AvailabilityApiClient(_mockFactory.Object.CreateClient("AvailabilityApi"));
+            var result = await client.Get(1);
             Assert.NotNull(result);
         });
     }
