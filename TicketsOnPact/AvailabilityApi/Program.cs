@@ -78,17 +78,9 @@ public partial class Program
             }
         });
         
-        app.MapGet("/api/resources", () =>
+        app.MapGet("/api/resources", (AvailabilityContext context) =>
         {
-            return new
-            {
-                Resources = new[]
-                {
-                    new { id = 1, status = "available", name = "LadyGaGa" },
-                    new { id = 2, status = "blocked", name = "T-Love" },
-                    new { id = 3, status = "temporary_blocked", name = "Snoop Dog" }
-                }
-            };
+            return Results.Ok(new { Resources = context.Resources.ToArray() });
         });
 
         app.MapGet("/api/resources/{id}", (int id) =>

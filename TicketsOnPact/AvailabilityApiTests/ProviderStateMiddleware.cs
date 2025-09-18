@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json;
 using AvailabilityApi.Infrastructure;
+using AvailabilityApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -33,7 +34,19 @@ namespace AvailabilityApiTests
 
             this.providerStates = new Dictionary<string, Action<AvailabilityContext>>
             {
-                ["all resources"] = context => {} 
+                ["all resources"] = context =>
+                {
+                    context.RemoveRange(context.Resources);
+                    context.SaveChanges();
+                    var resources = new List<Resource>
+                    {
+                        new() { Id = 1, Status = "available", Name = "LadyGaGa" },
+                        new() { Id = 2, Status = "blocked", Name = "T-Love" },
+                        new() { Id = 3, Status = "temporary_blocked", Name = "Snoop Dog"}
+                    };
+                    context.AddRange(resources);
+                    context.SaveChanges();
+                } 
             };
         }
 
