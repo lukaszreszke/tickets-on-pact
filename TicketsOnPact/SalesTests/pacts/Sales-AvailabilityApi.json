@@ -4,6 +4,46 @@
   },
   "interactions": [
     {
+      "description": "get all resources",
+      "pending": false,
+      "request": {
+        "method": "GET",
+        "path": "/api/resources"
+      },
+      "response": {
+        "body": {
+          "content": {
+            "resources": [
+              {
+                "id": 1,
+                "name": "LadyGaGa",
+                "status": "available"
+              },
+              {
+                "id": 2,
+                "name": "T-Love",
+                "status": "blocked"
+              },
+              {
+                "id": 3,
+                "name": "Snoop Dog",
+                "status": "temporary_blocked"
+              }
+            ]
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "status": 200
+      },
+      "type": "Synchronous/HTTP"
+    },
+    {
       "description": "healthcheck request",
       "pending": false,
       "request": {
