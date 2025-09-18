@@ -4,6 +4,32 @@
   },
   "interactions": [
     {
+      "description": "a request to get resource by id",
+      "pending": false,
+      "request": {
+        "method": "GET",
+        "path": "/api/resources/1"
+      },
+      "response": {
+        "body": {
+          "content": {
+            "id": 1,
+            "name": "LadyGaGa",
+            "status": "available"
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "status": 200
+      },
+      "type": "Synchronous/HTTP"
+    },
+    {
       "description": "get all resources",
       "pending": false,
       "request": {
