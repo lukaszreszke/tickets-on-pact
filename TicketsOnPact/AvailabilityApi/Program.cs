@@ -33,7 +33,7 @@ public partial class Program
            });
         }
         var app = builder.Build();
-        
+
         var logger = app.Services.GetRequiredService<ILogger<Program>>();
         logger.LogInformation("Starting Availability application...");
 
@@ -42,7 +42,7 @@ public partial class Program
             var dbContext = scope.ServiceProvider.GetRequiredService<AvailabilityContext>();
             dbContext.Database.EnsureCreated();
         }
-        
+
         if (app.Environment.IsDevelopment())
         {
             app.MapOpenApi();
@@ -68,9 +68,22 @@ public partial class Program
                 return Results.Problem("Database connection failed");
             }
         });
-        
+
+        app.MapGet("/api/resources", () =>
+        {
+            return new
+            {
+                Resources = new[]
+                {
+                    new { id = 1, status = "available", name = "LadyGaGa" },
+                    new { id = 2, status = "blocked", name = "T-Love" },
+                    new { id = 3, status = "temporary_blocked", name = "Snoop Dog" }
+                }
+            };
+        });
+
         app.MapHealthChecks("/health");
- 
+
         logger.LogInformation("Application configured and ready to start");
         return app;
     }

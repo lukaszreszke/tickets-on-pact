@@ -54,10 +54,45 @@ public class AvailabilityConsumerTests
                         Accept = { MediaTypeWithQualityHeaderValue.Parse("application/json") }
                     }
                 });
-            
+
             var healthCheckClient = new HealthCheckClient(_mockFactory.Object.CreateClient("AvailabilityApi"));
             var result = await healthCheckClient.DudeYouOk();
             Assert.Equal("Healthy", result);
+        });
+    }
+
+    [Fact]
+    public async Task GetAllResources()
+    {
+        _pact.UponReceiving("get all resources")
+            .WithRequest(HttpMethod.Get, "/api/resources")
+            .WillRespond()
+            .WithStatus(HttpStatusCode.OK)
+            .WithJsonBody(new
+            {
+                resources = new[]
+                {
+                    new { id = 1, status = "available", name = "LadyGaGa" },
+                    new { id = 2, status = "blocked", name = "T-Love" },
+                    new { id = 3, status = "temporary_blocked", name = "Snoop Dog" }
+                }
+            });
+
+        await _pact.VerifyAsync(async ctx =>
+        {
+            _mockFactory.Setup(x => x.CreateClient("AvailabilityApi"))
+                .Returns(() => new HttpClient
+                {
+                    BaseAddress = ctx.MockServerUri,
+                    DefaultRequestHeaders =
+                    {
+                        Accept = { MediaTypeWithQualityHeaderValue.Parse("application/json") }
+                    }
+                });
+            
+            var client = new AvailabilityApiClient(_mockFactory.Object.CreateClient("AvailabilityApi"));
+            var result = await client.GetAll();
+            Assert.NotNull(result);
         });
     }
 }
