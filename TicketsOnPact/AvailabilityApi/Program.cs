@@ -40,7 +40,7 @@ public partial class Program
         }
 
         var app = builder.Build();
-        
+
         var logger = app.Services.GetRequiredService<ILogger<Program>>();
         logger.LogInformation("Starting Availability application...");
 
@@ -49,7 +49,7 @@ public partial class Program
             var dbContext = scope.ServiceProvider.GetRequiredService<AvailabilityContext>();
             dbContext.Database.EnsureCreated();
         }
-        
+
         if (app.Environment.IsDevelopment())
         {
             app.MapOpenApi();
@@ -75,9 +75,9 @@ public partial class Program
                 return Results.Problem("Database connection failed");
             }
         });
-        
+
         app.MapHealthChecks("/health");
- 
+
         logger.LogInformation("Application configured and ready to start");
         return app;
     }
