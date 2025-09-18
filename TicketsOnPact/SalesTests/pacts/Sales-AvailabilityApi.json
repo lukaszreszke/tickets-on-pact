@@ -4,6 +4,43 @@
   },
   "interactions": [
     {
+      "description": "a request to block specific resource",
+      "pending": false,
+      "request": {
+        "body": {
+          "content": {
+            "id": 1
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "method": "POST",
+        "path": "/api/resources/1"
+      },
+      "response": {
+        "body": {
+          "content": {
+            "id": 1,
+            "status": "blocked"
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "status": 200
+      },
+      "type": "Synchronous/HTTP"
+    },
+    {
       "description": "a request to get resource by id",
       "pending": false,
       "request": {
