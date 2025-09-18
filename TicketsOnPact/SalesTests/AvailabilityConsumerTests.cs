@@ -65,6 +65,7 @@ public class AvailabilityConsumerTests
     public async Task GetAllResources()
     {
         _pact.UponReceiving("get all resources")
+            .Given("all resources")
             .WithRequest(HttpMethod.Get, "/api/resources")
             .WillRespond()
             .WithStatus(HttpStatusCode.OK)
