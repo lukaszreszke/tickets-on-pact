@@ -89,13 +89,16 @@ public partial class Program
             return resource == null ? Results.NotFound() : Results.Ok(new { resource.Id, resource.Name, resource.Status });
         });
 
-        app.MapPost("/api/resources/{id}", (int id, [FromBody] dynamic json) =>
+        app.MapPost("/api/resources/{id}", (int id, AvailabilityContext context, [FromBody] dynamic json) =>
         {
-            if (id == 1)
-            {
-                return Results.Ok(new { id = 1, status = "blocked" });
-            }
-            return Results.NotFound();
+            var resource = context.Resources.FirstOrDefault(x => x.Id == id);
+            if (resource == null)
+                return Results.NotFound();
+
+            resource.Status = "blocked";
+            context.SaveChanges();
+            
+            return Results.Ok(new { resource.Id, resource.Status });
         });
 
         app.MapHealthChecks("/health");
