@@ -72,11 +72,10 @@ public class AvailabilityConsumerTests
             .WithStatus(HttpStatusCode.OK)
             .WithJsonBody(new
             {
-                resources = new[]
-                {
-                    new { id = 1, status = "available", name = "LadyGaGa" },
-                    new { id = 2, status = "blocked", name = "T-Love" },
-                    new { id = 3, status = "temporary_blocked", name = "Snoop Dog" }
+                resources =  new []{ 
+                    new { id = Match.Integer(1), status = Match.Regex("available", "available|blocked|temporary_blocked"), name = Match.Regex("LadyGaGa", ".*") },
+                    new { id = Match.Integer(2), status = Match.Regex("blocked", "available|blocked|temporary_blocked"), name = Match.Regex("T-Love", ".*") },
+                    new { id = Match.Integer(3), status = Match.Regex("temporary_blocked", "available|blocked|temporary_blocked"), name = Match.Regex("Snoop Dog", ".*") }
                 }
             });
 
@@ -156,6 +155,42 @@ public class AvailabilityConsumerTests
 
             var client = new AvailabilityApiClient(_mockFactory.Object.CreateClient("AvailabilityApi"));
             var result = await client.Block(1);
+            Assert.NotNull(result);
+        });
+    }
+    
+    [Fact]
+    public async Task GetAllBlockedResources()
+    {
+        _pact.UponReceiving("get all blocked resources")
+            .Given("there are blocked resources")
+            .WithRequest(HttpMethod.Get, "/api/blocked-resources")
+            .WillRespond()
+            .WithStatus(HttpStatusCode.OK)
+            .WithJsonBody(new
+            {
+                resources = new[]
+                {
+                    new { id = Match.Integer(1), status = Match.Regex("blocked", "available|blocked"), name = Match.Regex("LadyGaGa", ".*") },
+                    new { id = Match.Integer(2), status = Match.Regex("blocked", "available|blocked"), name = Match.Regex("T-Love", ".*") },
+                    new { id = Match.Integer(3), status = Match.Regex("blocked", "available|blocked"), name = Match.Regex("Snoop Dog", ".*") }
+                }
+            });
+
+        await _pact.VerifyAsync(async ctx =>
+        {
+            _mockFactory.Setup(x => x.CreateClient("AvailabilityApi"))
+                .Returns(() => new HttpClient
+                {
+                    BaseAddress = ctx.MockServerUri,
+                    DefaultRequestHeaders =
+                    {
+                        Accept = { MediaTypeWithQualityHeaderValue.Parse("application/json") }
+                    }
+                });
+
+            var client = new AvailabilityApiClient(_mockFactory.Object.CreateClient("AvailabilityApi"));
+            var result = await client.GetBlocked();
             Assert.NotNull(result);
         });
     }
