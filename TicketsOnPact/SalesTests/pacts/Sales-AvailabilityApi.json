@@ -261,6 +261,103 @@
       "type": "Synchronous/HTTP"
     },
     {
+      "description": "get all blocked resources V2",
+      "pending": false,
+      "providerStates": [
+        {
+          "name": "there are blocked resources"
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/api/v2/blocked-resources"
+      },
+      "response": {
+        "body": {
+          "content": {
+            "resources": [
+              {
+                "id": 1,
+                "status": "blocked"
+              },
+              {
+                "id": 2,
+                "status": "blocked"
+              },
+              {
+                "id": 3,
+                "status": "blocked"
+              }
+            ]
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.resources[0].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ]
+            },
+            "$.resources[0].status": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "available|blocked"
+                }
+              ]
+            },
+            "$.resources[1].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ]
+            },
+            "$.resources[1].status": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "available|blocked"
+                }
+              ]
+            },
+            "$.resources[2].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ]
+            },
+            "$.resources[2].status": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "available|blocked"
+                }
+              ]
+            }
+          }
+        },
+        "status": 200
+      },
+      "type": "Synchronous/HTTP"
+    },
+    {
       "description": "get all resources",
       "pending": false,
       "providerStates": [

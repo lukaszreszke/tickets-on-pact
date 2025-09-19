@@ -1,3 +1,4 @@
+using AvailabilityApi.Dtos;
 using AvailabilityApi.Infrastructure;
 using AvailabilityApi.Models;
 using AvailabilityApi.Services;
@@ -104,6 +105,15 @@ public partial class Program
         app.MapGet("/api/blocked-resources", (AvailabilityContext context) =>
         {
             return Results.Ok(new { resources = context.Resources.Where(x => x.Status == "blocked").ToArray() });
+        });
+
+        app.MapGet("/api/v2/blocked-resources", (AvailabilityContext context) =>
+        {
+            return Results.Ok(new
+            {
+                resources = context.Resources.Where(x => x.Status == "blocked")
+                    .Select(x => BlockedResource.FromResource(x)).ToArray()
+            });
         });
 
         app.MapHealthChecks("/health");
