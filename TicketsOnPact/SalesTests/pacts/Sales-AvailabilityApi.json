@@ -34,7 +34,7 @@
         "body": {
           "content": {
             "id": 1,
-            "status": "blocked"
+            "status": "available"
           },
           "contentType": "application/json",
           "encoded": false
@@ -43,6 +43,27 @@
           "Content-Type": [
             "application/json"
           ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ]
+            },
+            "$.status": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "available|blocked"
+                }
+              ]
+            }
+          }
         },
         "status": 200
       },
