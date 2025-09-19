@@ -7,6 +7,7 @@ using PactNet;
 using PactNet.Output.Xunit;
 using Sales.Services;
 using Xunit.Abstractions;
+using Match = PactNet.Matchers.Match;
 
 namespace SalesTests;
 
@@ -100,12 +101,17 @@ public class AvailabilityConsumerTests
     [Fact]
     public async Task GetResource()
     {
+        var expected = new ResourceDto(1, "LadyGaGa", "available");
         _pact.UponReceiving("a request to get resource by id")
             .Given("resource with ID {id} exists", new Dictionary<string, string> { ["id"] = "1" })
             .WithRequest(HttpMethod.Get, "/api/resources/1")
             .WillRespond()
             .WithStatus(HttpStatusCode.OK)
-            .WithJsonBody(new ResourceDto(1, "LadyGaGa", "available"));
+            .WithJsonBody(new
+            {
+                Id = Match.Integer(expected.Id), Name = Match.Regex(expected.Name, ".*"),
+                Status = Match.Regex(expected.Status, "available|blocked")
+            });
 
         await _pact.VerifyAsync(async ctx =>
         {
@@ -125,12 +131,11 @@ public class AvailabilityConsumerTests
         });
     }
     
-    
     [Fact]
     public async Task BlockResource()
     {
         _pact.UponReceiving("a request to block specific resource")
-            .Given("resource with ID {id} exists",  new Dictionary<string, string> { ["id"] = "1" })
+            .Given("resource with ID {id} exists", new Dictionary<string, string> { ["id"] = "1" })
             .WithRequest(HttpMethod.Post, "/api/resources/1")
             .WithJsonBody(new { id = 1 })
             .WillRespond()
