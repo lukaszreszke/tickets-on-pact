@@ -101,6 +101,7 @@ public class AvailabilityConsumerTests
     public async Task GetResource()
     {
         _pact.UponReceiving("a request to get resource by id")
+            .Given("resource with ID {id} exists", new Dictionary<string, string> { ["id"] = "1" })
             .WithRequest(HttpMethod.Get, "/api/resources/1")
             .WillRespond()
             .WithStatus(HttpStatusCode.OK)
