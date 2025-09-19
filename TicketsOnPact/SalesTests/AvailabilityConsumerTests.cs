@@ -194,4 +194,40 @@ public class AvailabilityConsumerTests
             Assert.NotNull(result);
         });
     }
+    
+    [Fact]
+    public async Task GetAllBlockedResourcesV2()
+    {
+        _pact.UponReceiving("get all blocked resources V2")
+            .Given("there are blocked resources")
+            .WithRequest(HttpMethod.Get, "/api/v2/blocked-resources")
+            .WillRespond()
+            .WithStatus(HttpStatusCode.OK)
+            .WithJsonBody(new
+            {
+                resources = new[]
+                {
+                    new { id = Match.Integer(1), status = Match.Regex("blocked", "available|blocked") },
+                    new { id = Match.Integer(2), status = Match.Regex("blocked", "available|blocked") },
+                    new { id = Match.Integer(3), status = Match.Regex("blocked", "available|blocked") }
+                }
+            });
+
+        await _pact.VerifyAsync(async ctx =>
+        {
+            _mockFactory.Setup(x => x.CreateClient("AvailabilityApi"))
+                .Returns(() => new HttpClient
+                {
+                    BaseAddress = ctx.MockServerUri,
+                    DefaultRequestHeaders =
+                    {
+                        Accept = { MediaTypeWithQualityHeaderValue.Parse("application/json") }
+                    }
+                });
+
+            var client = new AvailabilityApiClient(_mockFactory.Object.CreateClient("AvailabilityApi"));
+            var result = await client.GetBlockedV2();
+            Assert.NotNull(result);
+        });
+    }
 }
