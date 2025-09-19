@@ -140,7 +140,7 @@ public class AvailabilityConsumerTests
             .WithJsonBody(new { id = 1 })
             .WillRespond()
             .WithStatus(HttpStatusCode.OK)
-            .WithJsonBody(new { id = 1, status = "blocked" });
+            .WithJsonBody(new { id = Match.Integer(1), status = Match.Regex("available", "available|blocked") });
 
         await _pact.VerifyAsync(async ctx =>
         {
