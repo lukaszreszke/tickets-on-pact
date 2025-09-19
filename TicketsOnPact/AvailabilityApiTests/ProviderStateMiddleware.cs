@@ -46,7 +46,16 @@ namespace AvailabilityApiTests
                     };
                     context.AddRange(resources);
                     context.SaveChanges();
-                } 
+                },
+                ["resource with ID {id} exists"] = context =>
+                {
+                    var resource = context.Resources.FirstOrDefault(x => x.Id == 1);
+                    if (resource == null)
+                    {
+                        context.Resources.Add(new Resource { Id = 1, Status = "available", Name = "LadyGaGa" });
+                        context.SaveChanges();
+                    }
+                }
             };
         }
 
