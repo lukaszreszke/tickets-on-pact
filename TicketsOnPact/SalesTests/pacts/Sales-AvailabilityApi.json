@@ -43,6 +43,14 @@
     {
       "description": "a request to get resource by id",
       "pending": false,
+      "providerStates": [
+        {
+          "name": "resource with ID {id} exists",
+          "params": {
+            "id": 1
+          }
+        }
+      ],
       "request": {
         "method": "GET",
         "path": "/api/resources/1"
