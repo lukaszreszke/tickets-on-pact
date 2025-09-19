@@ -56,7 +56,7 @@ namespace AvailabilityApiTests
                         context.SaveChanges();
                     }
                 },
-                ["Given there are blocked resources"] = context =>
+                ["there are blocked resources"] = context =>
                 {
                     context.RemoveRange(context.Resources);
                     context.SaveChanges();
