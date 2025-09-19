@@ -130,6 +130,7 @@ public class AvailabilityConsumerTests
     public async Task BlockResource()
     {
         _pact.UponReceiving("a request to block specific resource")
+            .Given("resource with ID {id} exists",  new Dictionary<string, string> { ["id"] = "1" })
             .WithRequest(HttpMethod.Post, "/api/resources/1")
             .WithJsonBody(new { id = 1 })
             .WillRespond()
