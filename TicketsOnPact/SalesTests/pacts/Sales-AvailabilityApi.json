@@ -78,6 +78,36 @@
             "application/json"
           ]
         },
+        "matchingRules": {
+          "body": {
+            "$.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ]
+            },
+            "$.name": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": ".*"
+                }
+              ]
+            },
+            "$.status": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "available|blocked"
+                }
+              ]
+            }
+          }
+        },
         "status": 200
       },
       "type": "Synchronous/HTTP"
