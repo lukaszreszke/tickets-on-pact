@@ -83,11 +83,10 @@ public partial class Program
             return Results.Ok(new { Resources = context.Resources.ToArray() });
         });
 
-        app.MapGet("/api/resources/{id}", (int id) =>
+        app.MapGet("/api/resources/{id}", (int id, AvailabilityContext context) =>
         {
-            if(id == 1)
-                return Results.Ok(new { id = 1, status = "available", name = "LadyGaGa" });
-            return Results.NotFound();
+            var resource = context.Resources.FirstOrDefault(x => x.Id == id);
+            return resource == null ? Results.NotFound() : Results.Ok(new { resource.Id, resource.Name, resource.Status });
         });
 
         app.MapPost("/api/resources/{id}", (int id, [FromBody] dynamic json) =>
