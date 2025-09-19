@@ -101,6 +101,11 @@ public partial class Program
             return Results.Ok(new { resource.Id, resource.Status });
         });
 
+        app.MapGet("/api/blocked-resources", (AvailabilityContext context) =>
+        {
+            return Results.Ok(new { resources = context.Resources.Where(x => x.Status == "blocked").ToArray() });
+        });
+
         app.MapHealthChecks("/health");
 
         logger.LogInformation("Application configured and ready to start");

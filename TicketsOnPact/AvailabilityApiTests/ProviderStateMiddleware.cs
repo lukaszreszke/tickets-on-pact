@@ -55,6 +55,19 @@ namespace AvailabilityApiTests
                         context.Resources.Add(new Resource { Id = 1, Status = "available", Name = "LadyGaGa" });
                         context.SaveChanges();
                     }
+                },
+                ["Given there are blocked resources"] = context =>
+                {
+                    context.RemoveRange(context.Resources);
+                    context.SaveChanges();
+                    var resources = new List<Resource>
+                    {
+                        new() { Id = 1, Status = "blocked", Name = "LadyGaGa" },
+                        new() { Id = 2, Status = "blocked", Name = "T-Love" },
+                        new() { Id = 3, Status = "blocked", Name = "Snoop Dog"}
+                    };
+                    context.AddRange(resources);
+                    context.SaveChanges();
                 }
             };
         }

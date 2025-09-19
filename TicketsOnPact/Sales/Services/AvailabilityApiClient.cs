@@ -11,6 +11,13 @@ public class AvailabilityApiClient(HttpClient httpClient)
         var content = await response.Content.ReadFromJsonAsync<ResourcesDto>();
         return content;
     }
+
+    public async Task<ResourcesDto?> GetBlocked()
+    {
+        var response = await httpClient.GetAsync("/api/blocked-resources");
+        var content = await response.Content.ReadFromJsonAsync<ResourcesDto>();
+        return content;
+    }
     
     public async Task<ResourcesDto> Get(int id)
     {
