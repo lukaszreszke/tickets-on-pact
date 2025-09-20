@@ -57,7 +57,14 @@ public class ProviderTests : IDisposable
         _verifier.WithHttpEndpoint(new Uri(_baseUri))
             .WithMessages(scenarios =>
             {
-                scenarios.Add("an event indicating that an resource has been blocked", () => new ResourceBlocked(1));
+                scenarios.Add("an event indicating that an resource has been blocked", builder =>
+                {
+                    builder.WithMetadata(new
+                    {
+                        eventType = nameof(ResourceBlocked),
+                        contentType = "application/json"
+                    }).WithContent(() => new ResourceBlocked(1));
+                });
                 scenarios.Add("an event indicating that an resource has been unblocked", builder =>
                 {
                     builder.WithMetadata(new
