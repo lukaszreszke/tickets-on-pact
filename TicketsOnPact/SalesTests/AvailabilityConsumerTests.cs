@@ -230,4 +230,40 @@ public class AvailabilityConsumerTests
             Assert.NotNull(result);
         });
     }
+
+    [Fact]
+    public async Task GetTemporaryBlocked()
+    {
+        _pact.UponReceiving("get temporary blocked resources")
+            .Given("there are temporary blocked resources")
+            .WithRequest(HttpMethod.Get, "/api/temporary-blocked")
+            .WillRespond()
+            .WithStatus(HttpStatusCode.OK)
+            .WithJsonBody(new
+            {
+                resources = new[]
+                {
+                    new { id = Match.Integer(1), until = Match.Type(DateTime.Today) },
+                    new { id = Match.Integer(2), until = Match.Type(DateTime.Today) },
+                    new { id = Match.Integer(3), until = Match.Type(DateTime.Today) },
+                }
+            });
+
+        await _pact.VerifyAsync(async ctx =>
+        {
+            _mockFactory.Setup(x => x.CreateClient("AvailabilityApi"))
+                .Returns(() => new HttpClient
+                {
+                    BaseAddress = ctx.MockServerUri,
+                    DefaultRequestHeaders =
+                    {
+                        Accept = { MediaTypeWithQualityHeaderValue.Parse("application/json") }
+                    }
+                });
+
+            var client = new AvailabilityApiClient(_mockFactory.Object.CreateClient("AvailabilityApi"));
+            var result = await client.GetTemporaryBlocked();
+            Assert.NotNull(result);
+        });
+    }
 }

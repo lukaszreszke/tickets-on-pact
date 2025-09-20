@@ -18,25 +18,32 @@ public class AvailabilityApiClient(HttpClient httpClient)
         var content = await response.Content.ReadFromJsonAsync<ResourcesDto>();
         return content;
     }
-    
+
     public async Task<ResourcesDto?> GetBlockedV2()
     {
         var response = await httpClient.GetAsync("/api/v2/blocked-resources");
         var content = await response.Content.ReadFromJsonAsync<ResourcesDto>();
         return content;
     }
-    
+
     public async Task<ResourcesDto> Get(int id)
     {
         var response = await httpClient.GetAsync($"/api/resources/{id}");
         var content = await response.Content.ReadFromJsonAsync<ResourcesDto>();
         return content;
     }
-    
+
     public async Task<ResourcesDto> Block(int id)
     {
         var response = await httpClient.PostAsync($"/api/resources/{id}", JsonContent.Create(new { Id = 1 }));
         var content = await response.Content.ReadFromJsonAsync<ResourcesDto>();
+        return content;
+    }
+
+    public async Task<TemporaryBlockedResourcesDto?> GetTemporaryBlocked()
+    {
+        var response = await httpClient.GetAsync("/api/temporary-blocked");
+        var content = await response.Content.ReadFromJsonAsync<TemporaryBlockedResourcesDto>();
         return content;
     }
 }

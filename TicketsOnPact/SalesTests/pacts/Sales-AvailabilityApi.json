@@ -539,6 +539,100 @@
       "type": "Synchronous/HTTP"
     },
     {
+      "description": "get temporary blocked resources",
+      "pending": false,
+      "providerStates": [
+        {
+          "name": "there are temporary blocked resources"
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/api/temporary-blocked"
+      },
+      "response": {
+        "body": {
+          "content": {
+            "resources": [
+              {
+                "id": 1,
+                "until": "2025-09-20T00:00:00+02:00"
+              },
+              {
+                "id": 2,
+                "until": "2025-09-20T00:00:00+02:00"
+              },
+              {
+                "id": 3,
+                "until": "2025-09-20T00:00:00+02:00"
+              }
+            ]
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.resources[0].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ]
+            },
+            "$.resources[0].until": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.resources[1].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ]
+            },
+            "$.resources[1].until": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.resources[2].id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "integer"
+                }
+              ]
+            },
+            "$.resources[2].until": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          }
+        },
+        "status": 200
+      },
+      "type": "Synchronous/HTTP"
+    },
+    {
       "description": "healthcheck request",
       "pending": false,
       "request": {
