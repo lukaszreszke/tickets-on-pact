@@ -47,3 +47,9 @@ public class AvailabilityApiClient(HttpClient httpClient)
         return content;
     }
 }
+
+public class TemporaryBlockedResourcesDto
+{
+    public int Id { get; set; }
+    public DateTime Until { get; set; }
+}
