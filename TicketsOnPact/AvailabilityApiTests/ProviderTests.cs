@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Text.Json;
+using AvailabilityApi.Events;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -53,6 +55,10 @@ public class ProviderTests : IDisposable
     public void Verify()
     {
         _verifier.WithHttpEndpoint(new Uri(_baseUri))
+            .WithMessages(scenarios =>
+            {
+                scenarios.Add("an event indicating that an resource has been blocked", () => new ResourceBlocked());
+            }, JsonSerializerOptions.Web)
             .WithFileSource(new ("../../../../SalesTests/pacts/Sales-AvailabilityApi.json"))
             .WithProviderStateUrl(new Uri($"{_baseUri}/provider-states"))
             .Verify();
