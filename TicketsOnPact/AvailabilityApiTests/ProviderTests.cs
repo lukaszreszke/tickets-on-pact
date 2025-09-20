@@ -58,6 +58,7 @@ public class ProviderTests : IDisposable
             .WithMessages(scenarios =>
             {
                 scenarios.Add("an event indicating that an resource has been blocked", () => new ResourceBlocked(1));
+                scenarios.Add("an event indicating that an resource has been unblocked", () => new ResourceUnblocked(1));
             }, JsonSerializerOptions.Web)
             .WithFileSource(new ("../../../../SalesTests/pacts/Sales-AvailabilityApi.json"))
             .WithProviderStateUrl(new Uri($"{_baseUri}/provider-states"))

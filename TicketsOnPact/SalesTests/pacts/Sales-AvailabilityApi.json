@@ -158,6 +158,30 @@
       "type": "Asynchronous/Messages"
     },
     {
+      "contents": {
+        "content": {
+          "id": 1
+        },
+        "contentType": "application/json",
+        "encoded": false
+      },
+      "description": "an event indicating that an resource has been unblocked",
+      "matchingRules": {
+        "body": {
+          "$.id": {
+            "combine": "AND",
+            "matchers": [
+              {
+                "match": "integer"
+              }
+            ]
+          }
+        }
+      },
+      "pending": false,
+      "type": "Asynchronous/Messages"
+    },
+    {
       "description": "get all blocked resources",
       "pending": false,
       "providerStates": [
