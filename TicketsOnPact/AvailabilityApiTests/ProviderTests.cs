@@ -75,7 +75,7 @@ public class ProviderTests : IDisposable
             }, JsonSerializerOptions.Web)
             .WithPactBrokerSource(new Uri("http://localhost:9292"), options =>
             {
-                options.PublishResults(true, "bd3bca96a3f83cb75591e50fe7d97fa9dcfa3573");
+                options.PublishResults(true, version);
             })
             .WithProviderStateUrl(new Uri($"{_baseUri}/provider-states"))
             .Verify();

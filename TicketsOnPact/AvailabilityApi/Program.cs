@@ -116,6 +116,18 @@ public partial class Program
             });
         });
 
+        app.MapGet("/api/temporary-blocked", (AvailabilityContext context) =>
+        {
+            return Results.Ok(new
+            {
+                resources = context.Resources.Where(x => x.Status == "temporary_blocked").Select(x =>
+                new {
+                    x.Id,
+                    Until = x.BlockedUntil
+                })
+            });
+        });
+
         app.MapHealthChecks("/health");
 
         logger.LogInformation("Application configured and ready to start");
