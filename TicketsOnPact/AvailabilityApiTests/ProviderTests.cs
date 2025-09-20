@@ -74,7 +74,7 @@ public class ProviderTests : IDisposable
                     }).WithContent(() => new ResourceUnblocked(1));
                 });
             }, JsonSerializerOptions.Web)
-            .WithFileSource(new ("../../../../SalesTests/pacts/Sales-AvailabilityApi.json"))
+            .WithPactBrokerSource(new Uri("http://localhost:9292"))
             .WithProviderStateUrl(new Uri($"{_baseUri}/provider-states"))
             .Verify();
     }
