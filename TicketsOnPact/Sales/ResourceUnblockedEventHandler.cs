@@ -4,7 +4,7 @@ namespace Sales;
 
 public class ResourceUnblockedEventHandler
 {
-    public Task<bool> Handle(ResourceBlocked message)
+    public Task<bool> Handle(ResourceUnblocked message)
     {
         return Task.FromResult(true);
     }
