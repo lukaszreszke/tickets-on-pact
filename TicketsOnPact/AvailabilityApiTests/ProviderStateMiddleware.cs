@@ -68,6 +68,19 @@ namespace AvailabilityApiTests
                     };
                     context.AddRange(resources);
                     context.SaveChanges();
+                },
+                ["there are temporary blocked resources"] = context =>
+                {
+                    context.RemoveRange(context.Resources);
+                    context.SaveChanges();
+                    var resources = new List<Resource>
+                    {
+                        new() { Id = 1, BlockedUntil = DateTime.Parse("2024-12-31T23:59:59Z"), Status = "temporary_blocked", Name = "Snoop Dog" },
+                        new() { Id = 2, BlockedUntil = DateTime.Parse("2024-12-30T15:30:00Z"),  Status = "temporary_blocked", Name = "T-Love" },
+                        new() { Id = 3, BlockedUntil = DateTime.Parse("2024-12-29T10:00:00Z"),   Status = "temporary_blocked", Name = "Snoop Dog" }
+                    };
+                    context.AddRange(resources);
+                    context.SaveChanges();
                 }
             };
         }
