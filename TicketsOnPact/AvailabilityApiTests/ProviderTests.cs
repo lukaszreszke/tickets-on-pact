@@ -57,7 +57,7 @@ public class ProviderTests : IDisposable
         _verifier.WithHttpEndpoint(new Uri(_baseUri))
             .WithMessages(scenarios =>
             {
-                scenarios.Add("an event indicating that an resource has been blocked", () => new ResourceBlocked());
+                scenarios.Add("an event indicating that an resource has been blocked", () => new ResourceBlocked(1));
             }, JsonSerializerOptions.Web)
             .WithFileSource(new ("../../../../SalesTests/pacts/Sales-AvailabilityApi.json"))
             .WithProviderStateUrl(new Uri($"{_baseUri}/provider-states"))

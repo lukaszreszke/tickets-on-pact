@@ -1,3 +1,3 @@
 namespace AvailabilityApi.Events;
 
-public record ResourceBlocked();
+public record ResourceBlocked(int Id);
