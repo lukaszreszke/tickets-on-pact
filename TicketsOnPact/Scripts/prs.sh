@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 branches=$(git for-each-ref --format='%(refname:short)' refs/heads/ | grep -v '^master$')
