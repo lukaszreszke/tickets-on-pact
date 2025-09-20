@@ -8,6 +8,7 @@ using PactNet;
 using PactNet.Infrastructure.Outputters;
 using PactNet.Output.Xunit;
 using PactNet.Verifier;
+using Shared;
 using Xunit.Abstractions;
 
 namespace AvailabilityApiTests;
@@ -53,6 +54,7 @@ public class ProviderTests : IDisposable
     [Fact]
     public void Verify()
     {
+        var version = $"provider-{GitInfo.GetGitInfo().commit}";
         _verifier.WithHttpEndpoint(new Uri(_baseUri))
             .WithMessages(scenarios =>
             {

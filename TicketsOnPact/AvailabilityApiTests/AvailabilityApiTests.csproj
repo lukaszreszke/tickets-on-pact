@@ -24,6 +24,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AvailabilityApi\AvailabilityApi.csproj" />
+      <ProjectReference Include="..\Shared\Shared.csproj" />
     </ItemGroup>
 
 </Project>
