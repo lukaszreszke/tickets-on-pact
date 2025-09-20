@@ -178,6 +178,9 @@
           }
         }
       },
+      "metadata": {
+        "eventType": "ResourceUnblocked"
+      },
       "pending": false,
       "type": "Asynchronous/Messages"
     },
