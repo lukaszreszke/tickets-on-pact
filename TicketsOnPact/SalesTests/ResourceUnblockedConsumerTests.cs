@@ -40,6 +40,7 @@ public class ResourceUnblockedConsumerTests
     {
         await _pact
             .ExpectsToReceive("an event indicating that an resource has been unblocked")
+            .WithMetadata("eventType", "ResourceUnblocked")
             .WithJsonContent(new
             {
                 Id = Match.Integer(1)
