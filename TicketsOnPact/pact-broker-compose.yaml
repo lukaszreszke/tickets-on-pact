@@ -20,6 +20,8 @@ services:
       PACT_BROKER_DATABASE_URL: "postgres://postgres:password@postgres/postgres"
       PACT_BROKER_LOG_LEVEL: INFO
       PACT_BROKER_SQL_LOG_LEVEL: DEBUG
+      PACT_BROKER_WEBHOOK_HOST_WHITELIST: "host.docker.internal localhost 127.0.0.1 192.168.10.230"
+      PACT_BROKER_WEBHOOK_SCHEME_WHITELIST: "http https"
     depends_on:
       postgres:
         condition: service_healthy
