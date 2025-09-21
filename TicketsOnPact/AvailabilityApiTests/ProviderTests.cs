@@ -31,6 +31,7 @@ public class ProviderTests : IDisposable
     public ProviderTests(ITestOutputHelper output)
     {
         _output = output;
+
         _app = Program.BuildApp(["--environment=Testing"]);
         _app.Urls.Add(_baseUri);
         _app.Start();
