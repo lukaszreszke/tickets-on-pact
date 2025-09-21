@@ -1,0 +1,43 @@
+{
+  "description": "Webhook to notify local listener about pact events",
+  "events": [
+    {
+      "name": "contract_published"
+    },
+    {
+      "name": "contract_changed"
+    },
+    {
+      "name": "contract_content_changed"
+    },
+    {
+      "name": "provider_verification_published"
+    },
+    {
+      "name": "provider_verification_succeeded"
+    },
+    {
+      "name": "provider_verification_failed"
+    }
+  ],
+  "request": {
+    "method": "POST",
+    "url": "https://host.docker.internal:6001/webhook",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "consumer": {
+        "name": "${pactbroker.consumerName}"
+      },
+      "provider": {
+        "name": "${pactbroker.providerName}"
+      },
+      "pact_url": "${pactbroker.pactUrl}",
+      "event": "${pactbroker.eventName}",
+      "verification_result_url": "${pactbroker.verificationResultUrl}",
+      "consumer_version": "${pactbroker.consumerVersionNumber}",
+      "provider_version": "${pactbroker.providerVersionNumber}"
+    }
+  }
+}
