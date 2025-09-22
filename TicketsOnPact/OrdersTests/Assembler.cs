@@ -28,6 +28,24 @@ public class OrderAssembler
         return this;
     }
 
+    public OrderAssembler WithCustomer(Guid customerId)
+    {
+        _customerId = customerId;
+        return this;
+    }
+
+    public OrderAssembler WithShippingAddress(string street, string city, string zip)
+    {
+        _shippingAddress = new Address(street, city, zip);
+        return this;
+    }
+
+    public OrderAssembler AddLine(Guid productId, int quantity, decimal unitPrice)
+    {
+        _lines.Add((productId, quantity, unitPrice));
+        return this;
+    }
+
     public OrderAssembler Confirmed()
     {
         _confirmed = true;
