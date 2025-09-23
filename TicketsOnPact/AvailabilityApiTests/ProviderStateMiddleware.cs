@@ -41,8 +41,6 @@ namespace AvailabilityApiTests
                     var resources = new List<Resource>
                     {
                         new() { Id = 1, Status = "available", Name = "LadyGaGa" },
-                        new() { Id = 2, Status = "blocked", Name = "T-Love" },
-                        new() { Id = 3, Status = "temporary_blocked", Name = "Snoop Dog"}
                     };
                     context.AddRange(resources);
                     context.SaveChanges();

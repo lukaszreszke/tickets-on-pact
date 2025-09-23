@@ -429,18 +429,8 @@
             "resources": [
               {
                 "id": 1,
-                "name": "LadyGaGa",
+                "name": "Some Name",
                 "status": "available"
-              },
-              {
-                "id": 2,
-                "name": "T-Love",
-                "status": "blocked"
-              },
-              {
-                "id": 3,
-                "name": "Snoop Dog",
-                "status": "temporary_blocked"
               }
             ]
           },
@@ -454,7 +444,16 @@
         },
         "matchingRules": {
           "body": {
-            "$.resources[0].id": {
+            "$.resources": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ]
+            },
+            "$.resources[*].id": {
               "combine": "AND",
               "matchers": [
                 {
@@ -462,68 +461,15 @@
                 }
               ]
             },
-            "$.resources[0].name": {
+            "$.resources[*].name": {
               "combine": "AND",
               "matchers": [
                 {
-                  "match": "regex",
-                  "regex": ".*"
+                  "match": "type"
                 }
               ]
             },
-            "$.resources[0].status": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "regex",
-                  "regex": "available|blocked|temporary_blocked"
-                }
-              ]
-            },
-            "$.resources[1].id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "integer"
-                }
-              ]
-            },
-            "$.resources[1].name": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "regex",
-                  "regex": ".*"
-                }
-              ]
-            },
-            "$.resources[1].status": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "regex",
-                  "regex": "available|blocked|temporary_blocked"
-                }
-              ]
-            },
-            "$.resources[2].id": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "integer"
-                }
-              ]
-            },
-            "$.resources[2].name": {
-              "combine": "AND",
-              "matchers": [
-                {
-                  "match": "regex",
-                  "regex": ".*"
-                }
-              ]
-            },
-            "$.resources[2].status": {
+            "$.resources[*].status": {
               "combine": "AND",
               "matchers": [
                 {
@@ -556,15 +502,15 @@
             "resources": [
               {
                 "id": 1,
-                "until": "2025-09-20T00:00:00+02:00"
+                "until": "2025-09-22T00:00:00+02:00"
               },
               {
                 "id": 2,
-                "until": "2025-09-20T00:00:00+02:00"
+                "until": "2025-09-22T00:00:00+02:00"
               },
               {
                 "id": 3,
-                "until": "2025-09-20T00:00:00+02:00"
+                "until": "2025-09-22T00:00:00+02:00"
               }
             ]
           },

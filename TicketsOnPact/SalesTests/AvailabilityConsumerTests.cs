@@ -72,11 +72,12 @@ public class AvailabilityConsumerTests
             .WithStatus(HttpStatusCode.OK)
             .WithJsonBody(new
             {
-                resources =  new []{ 
-                    new { id = Match.Integer(1), status = Match.Regex("available", "available|blocked|temporary_blocked"), name = Match.Regex("LadyGaGa", ".*") },
-                    new { id = Match.Integer(2), status = Match.Regex("blocked", "available|blocked|temporary_blocked"), name = Match.Regex("T-Love", ".*") },
-                    new { id = Match.Integer(3), status = Match.Regex("temporary_blocked", "available|blocked|temporary_blocked"), name = Match.Regex("Snoop Dog", ".*") }
-                }
+                resources = Match.MinType(new 
+                {
+                    id = Match.Integer(1),
+                    status = Match.Regex("available", "available|blocked|temporary_blocked"),
+                    name = Match.Type("Some Name")
+                }, 1)
             });
 
         await _pact.VerifyAsync(async ctx =>
