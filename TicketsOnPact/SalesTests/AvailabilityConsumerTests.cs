@@ -11,28 +11,18 @@ using Match = PactNet.Matchers.Match;
 
 namespace SalesTests;
 
+//[Collection(nameof(AvailabilityConsumerTestCollection))]
 public class AvailabilityConsumerTests
 {
     private readonly IPactBuilderV4 _pact;
     private readonly Mock<IHttpClientFactory> _mockFactory;
+    private readonly AvailabilityConsumerFixture _fixture;
 
     public AvailabilityConsumerTests(ITestOutputHelper output)
     {
         _mockFactory = new Mock<IHttpClientFactory>();
-
-        var config = new PactConfig
-        {
-            Outputters = new[] { new XunitOutput(output) },
-            DefaultJsonSettings = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                PropertyNameCaseInsensitive = true,
-                Converters = { new JsonStringEnumConverter() }
-            },
-            LogLevel = PactLogLevel.Information
-        };
-
-        _pact = Pact.V4("Sales", "AvailabilityApi", config).WithHttpInteractions();
+        _fixture = new  AvailabilityConsumerFixture(output);
+        _pact = _fixture.PactBuilder;
     }
 
     [Fact]
@@ -100,34 +90,28 @@ public class AvailabilityConsumerTests
     [Fact]
     public async Task GetResource()
     {
-        var expected = new ResourceDto(1, "LadyGaGa", "available");
-        _pact.UponReceiving("a request to get resource by id")
-            .Given("resource with ID {id} exists", new Dictionary<string, string> { ["id"] = "1" })
-            .WithRequest(HttpMethod.Get, "/api/resources/1")
-            .WillRespond()
-            .WithStatus(HttpStatusCode.OK)
-            .WithJsonBody(new
-            {
-                Id = Match.Integer(expected.Id), Name = Match.Regex(expected.Name, ".*"),
-                Status = Match.Regex(expected.Status, "available|blocked")
-            });
-
+        _fixture.GivenResourceExists();
+        
         await _pact.VerifyAsync(async ctx =>
         {
-            _mockFactory.Setup(x => x.CreateClient("AvailabilityApi"))
-                .Returns(() => new HttpClient
-                {
-                    BaseAddress = ctx.MockServerUri,
-                    DefaultRequestHeaders =
-                    {
-                        Accept = { MediaTypeWithQualityHeaderValue.Parse("application/json") }
-                    }
-                });
-
-            var client = new AvailabilityApiClient(_mockFactory.Object.CreateClient("AvailabilityApi"));
-            var result = await client.Get(1);
-            Assert.NotNull(result);
+            var client = NewClient(ctx);
+            await client.Get(1);
         });
+    }
+
+    private AvailabilityApiClient NewClient(IConsumerContext ctx)
+    {
+        _mockFactory.Setup(x => x.CreateClient("AvailabilityApi"))
+            .Returns(() => new HttpClient
+            {
+                BaseAddress = ctx.MockServerUri,
+                DefaultRequestHeaders =
+                {
+                    Accept = { MediaTypeWithQualityHeaderValue.Parse("application/json") }
+                }
+            });
+        var client = new AvailabilityApiClient(_mockFactory.Object.CreateClient("AvailabilityApi"));
+        return client;
     }
     
     [Fact]
